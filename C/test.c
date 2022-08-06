@@ -118,12 +118,12 @@ void show_example() {
 
 int main() {
     srand((unsigned int)time(NULL));
-    init_scramble();
-    print_table();
-    //test_hadamard();
-    //test_scramble_identity();
-    //double error = test_scramble_error_spread();
-    //printf("%f\n", error);
+    //init_scramble();
+    //print_table_code();
+    test_hadamard();
+    test_scramble_identity();
+    double error = test_scramble_error_spread();
+    printf("%f\n", error);
     //show_example();
     return 0;
 }
