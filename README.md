@@ -4,7 +4,7 @@ This library performs reversible data scrambling such that a bit error in any lo
 
 
 
-## Principle: we put a strong constraint on data
+## Principle: we put very strong constraints on data
 
 We have ASCII codes to represent strings. The number of ASCII codes that correspond to actual characters is 99 (33 to 126 for characters, and Space, CR, LF, Tab, NUL), and usually one byte is allocated for each character. 
 
@@ -14,5 +14,5 @@ A 10-character string is represented by 10 bytes, but when 10 bytes of data are 
 
 String is just one example; the JSON format imposes stronger constraints. Binary data is also constrained by its format.
 
-## Scramble and error detection using constraints
+## Scrambling and error detection using constraints
 
