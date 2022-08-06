@@ -39,35 +39,34 @@ static const uint8_t inv_GF_table[256] = {
    79, 174, 213, 233, 230, 231, 173, 232, 116, 214, 244, 234, 168,  80,  88, 175
 };
 
-void pseudo_hadamard(uint8_t* a, uint8_t* b){
+void bitsn_pseudo_hadamard(uint8_t* a, uint8_t* b){
     uint8_t new_a = *a + *b;
     uint8_t new_b = *a + 2*(*b);
     *a = new_a;
     *b = new_b;
 }
 
-void inv_pseudo_hadamard(uint8_t* a, uint8_t* b) {
+void bitsn_inv_pseudo_hadamard(uint8_t* a, uint8_t* b) {
     uint8_t new_b = *b - *a;
     uint8_t new_a = 2*(*a) - *b;
     *a = new_a;
     *b = new_b;
 }
 
-
-void scramble(size_t N, uint8_t* bytes) {
+void bitsn_scramble(size_t N, uint8_t* bytes) {
     int step = 1;
     do {
         for(int i = 0; i < N; i++) {
             bytes[i] = GF_table[bytes[i]];
         }
         for(int i = 0; i < N; i++) {
-            pseudo_hadamard(&bytes[i], &bytes[(i+step)%N]);
+            bitsn_pseudo_hadamard(&bytes[i], &bytes[(i+step)%N]);
         }
         step *= 2;
     } while(step*2 <= N);
 }
 
-void inv_scramble(size_t N, uint8_t* bytes) {
+void bitsn_un_scramble(size_t N, uint8_t* bytes) {
     int step = 1;
     do {
         step *= 2;
@@ -76,7 +75,7 @@ void inv_scramble(size_t N, uint8_t* bytes) {
 
     do {
         for(int i = N-1; i >= 0; i--) {
-            inv_pseudo_hadamard(&bytes[i], &bytes[(i+step)%N]);
+            bitsn_inv_pseudo_hadamard(&bytes[i], &bytes[(i+step)%N]);
         }
         for(int i = 0; i < N; i++) {
             bytes[i] = inv_GF_table[bytes[i]];

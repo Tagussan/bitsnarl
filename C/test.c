@@ -11,13 +11,13 @@ void test_hadamard() {
             if(a == 0 && b == 0) continue;
             uint8_t a_orig = a;
             uint8_t b_orig = b;
-            pseudo_hadamard(&a_orig, &b_orig);
-            pseudo_hadamard(&a_orig, &b_orig);
+            bitsn_pseudo_hadamard(&a_orig, &b_orig);
+            bitsn_pseudo_hadamard(&a_orig, &b_orig);
             if(a == a_orig && b == b_orig) {
                 printf("pseudo_hadamard yield same result (%d, %d) => (%d, %d)\n", a, b, a_orig, b_orig);
             }
-            inv_pseudo_hadamard(&a_orig, &b_orig);
-            inv_pseudo_hadamard(&a_orig, &b_orig);
+            bitsn_inv_pseudo_hadamard(&a_orig, &b_orig);
+            bitsn_inv_pseudo_hadamard(&a_orig, &b_orig);
             if(!(a_orig == a && b_orig == b)) {
                 printf("pseudo_hadamard not bijective at (%d, %d)\n", a, b);
             }
@@ -32,8 +32,8 @@ void test_scramble_identity() {
         bytes_orig[i] = rand() % 255;
     }
     memcpy(bytes_copy, bytes_orig, N);
-    scramble(N, bytes_orig);
-    inv_scramble(N, bytes_orig);
+    bitsn_scramble(N, bytes_orig);
+    bitsn_un_scramble(N, bytes_orig);
     for(int i = 0; i < N; i++) {
         if(bytes_orig[i] != bytes_copy[i]) {
             printf("diff at %i-th: %d\n", i, bytes_copy[i]);
@@ -41,23 +41,21 @@ void test_scramble_identity() {
     }
 }
 
-double test_scramble_error_spread() {
+void test_scramble_error_spread() {
     double same_rate = 0.0;
     double avg_same_rate = 0.0;
-
-    double diff_rate_bit = 0.0;
 
     uint8_t bytes_orig[N], bytes_scrambled[N];
     for(int i = 0; i < N; i++) {
         bytes_orig[i] = rand() % 255;
     }
     memcpy(bytes_scrambled, bytes_orig, N);
-    scramble(N, bytes_scrambled);
+    bitsn_scramble(N, bytes_scrambled);
     for(int p = 0; p < N; p++) { //error at p
         uint8_t bytes_dirty[N];
         memcpy(bytes_dirty, bytes_scrambled, N);
-        bytes_dirty[p] += 7;
-        inv_scramble(N, bytes_dirty);
+        bytes_dirty[p] += 7; //inject some error
+        bitsn_un_scramble(N, bytes_dirty);
         int same_count = 0;
         for(int i = 0; i < N; i++) {
             if(bytes_dirty[i] == bytes_scrambled[i]) {
@@ -67,7 +65,9 @@ double test_scramble_error_spread() {
         same_rate = (double)same_count / (double)N;
         avg_same_rate += same_rate;
     }
-    return avg_same_rate / (double)N;
+    double error = avg_same_rate / (double)N;
+    printf("Probability of getting same bytes after bit error: %f\n", error);
+    printf("Probability of getting same bytes at random: 1/256=%f\n", 1.0/256.0);
 }
 
 void disp_byte(uint8_t byte) {
@@ -95,22 +95,22 @@ void show_example() {
     }
     printf("Original\n");
     disp_bytes(8, bytes_orig);
-    scramble(8, bytes_orig);
+    bitsn_scramble(8, bytes_orig);
     printf("Scrambled\n");
     disp_bytes(8, bytes_orig);
-    inv_scramble(8, bytes_orig);
+    bitsn_un_scramble(8, bytes_orig);
     printf("Un-scrambled\n");
     disp_bytes(8, bytes_orig);
 
     printf("\nOriginal\n");
     disp_bytes(8, bytes_orig);
-    scramble(8, bytes_orig);
+    bitsn_scramble(8, bytes_orig);
     printf("Scrambled\n");
     disp_bytes(8, bytes_orig);
     bytes_orig[1] += 1;
-    printf("With Contamination\n");
+    printf("With Error\n");
     disp_bytes(8, bytes_orig);
-    inv_scramble(8, bytes_orig);
+    bitsn_un_scramble(8, bytes_orig);
     printf("Un-scrambled\n");
     disp_bytes(8, bytes_orig);
 }
@@ -118,12 +118,9 @@ void show_example() {
 
 int main() {
     srand((unsigned int)time(NULL));
-    //init_scramble();
-    //print_table_code();
     test_hadamard();
     test_scramble_identity();
-    double error = test_scramble_error_spread();
-    printf("%f\n", error);
-    //show_example();
+    test_scramble_error_spread();
+    show_example();
     return 0;
 }
