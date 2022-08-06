@@ -32,8 +32,8 @@ void test_scramble_identity() {
         bytes_orig[i] = rand() % 255;
     }
     memcpy(bytes_copy, bytes_orig, N);
-    bitsn_scramble(N, bytes_orig);
-    bitsn_un_scramble(N, bytes_orig);
+    bitsn_scramble(bytes_orig, N);
+    bitsn_un_scramble(bytes_orig, N);
     for(int i = 0; i < N; i++) {
         if(bytes_orig[i] != bytes_copy[i]) {
             printf("diff at %i-th: %d\n", i, bytes_copy[i]);
@@ -50,12 +50,12 @@ void test_scramble_error_spread() {
         bytes_orig[i] = rand() % 255;
     }
     memcpy(bytes_scrambled, bytes_orig, N);
-    bitsn_scramble(N, bytes_scrambled);
+    bitsn_scramble(bytes_scrambled, N);
     for(int p = 0; p < N; p++) { //error at p
         uint8_t bytes_dirty[N];
         memcpy(bytes_dirty, bytes_scrambled, N);
         bytes_dirty[p] += 7; //inject some error
-        bitsn_un_scramble(N, bytes_dirty);
+        bitsn_un_scramble(bytes_dirty, N);
         int same_count = 0;
         for(int i = 0; i < N; i++) {
             if(bytes_dirty[i] == bytes_scrambled[i]) {
@@ -76,7 +76,7 @@ void disp_byte(uint8_t byte) {
     }
 }
 
-void disp_bytes(size_t n, uint8_t* bytes) {
+void disp_bytes(uint8_t* bytes, size_t n) {
     for(int i = 0; i < n; i++) {
         disp_byte(bytes[i]);
         if(i != n-1) {
@@ -87,6 +87,7 @@ void disp_bytes(size_t n, uint8_t* bytes) {
     }
 }
 
+#define EXAMPLE_N 8
 void show_example() {
     // scramble and recover
     uint8_t bytes_orig[8];
@@ -94,25 +95,25 @@ void show_example() {
         bytes_orig[i] = rand() % 255;
     }
     printf("Original\n");
-    disp_bytes(8, bytes_orig);
-    bitsn_scramble(8, bytes_orig);
+    disp_bytes(bytes_orig, EXAMPLE_N);
+    bitsn_scramble(bytes_orig, EXAMPLE_N);
     printf("Scrambled\n");
-    disp_bytes(8, bytes_orig);
-    bitsn_un_scramble(8, bytes_orig);
+    disp_bytes(bytes_orig, EXAMPLE_N);
+    bitsn_un_scramble(bytes_orig, EXAMPLE_N);
     printf("Un-scrambled\n");
-    disp_bytes(8, bytes_orig);
+    disp_bytes(bytes_orig, EXAMPLE_N);
 
     printf("\nOriginal\n");
-    disp_bytes(8, bytes_orig);
-    bitsn_scramble(8, bytes_orig);
+    disp_bytes(bytes_orig, EXAMPLE_N);
+    bitsn_scramble(bytes_orig, EXAMPLE_N);
     printf("Scrambled\n");
-    disp_bytes(8, bytes_orig);
+    disp_bytes(bytes_orig, EXAMPLE_N);
     bytes_orig[1] += 1;
     printf("With Error\n");
-    disp_bytes(8, bytes_orig);
-    bitsn_un_scramble(8, bytes_orig);
+    disp_bytes(bytes_orig, EXAMPLE_N);
+    bitsn_un_scramble(bytes_orig, EXAMPLE_N);
     printf("Un-scrambled\n");
-    disp_bytes(8, bytes_orig);
+    disp_bytes(bytes_orig, EXAMPLE_N);
 }
 
 

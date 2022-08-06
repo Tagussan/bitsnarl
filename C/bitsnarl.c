@@ -53,7 +53,7 @@ void bitsn_inv_pseudo_hadamard(uint8_t* a, uint8_t* b) {
     *b = new_b;
 }
 
-void bitsn_scramble(size_t N, uint8_t* bytes) {
+void bitsn_scramble(uint8_t* bytes, size_t N) {
     int step = 1;
     do {
         for(int i = 0; i < N; i++) {
@@ -66,7 +66,7 @@ void bitsn_scramble(size_t N, uint8_t* bytes) {
     } while(step*2 <= N);
 }
 
-void bitsn_un_scramble(size_t N, uint8_t* bytes) {
+void bitsn_un_scramble(uint8_t* bytes, size_t N) {
     int step = 1;
     do {
         step *= 2;
