@@ -31,3 +31,24 @@ However, if there are errors in the scrambled data, the reverse-scrambled data w
 <p align="center">
   <img src="https://raw.githubusercontent.com/Tagussan/bitsnarl/main/docs/data_transition.png" style="width: 35%;">
 </p>
+## Usage
+
+The algorithm is implemented with just addition and table lookups. No heavy integer computation like the famous cryptographic algorithm is required. The algorithm consists of [pseudo-hadamard](https://en.wikipedia.org/wiki/Pseudo-Hadamard_transform) transform and GF(2^8) table. Runs in O(N log N) time. Even available in MCU with limited resources.
+
+- Error detection w/o extra bits: as described above. After the reverse scramble, check whether the restored data satisfies the original format.
+- Error detection with additional bits: For data without any constraint, or adding more error detection ability. This can be done by adding some magic numbers along with the original data. Use this number for validation. 
+  - For example, suppose data with N bits of additional magic number is scrambled. In that case, the probability of getting the same magic number after reverse scramble is 2^(-N) in the random data.
+
+## How to use
+
+- C language: include `bitsnarl.h` and add `bitsnarl.c` to your project. See `example.c` for example
+- C++ language: header-only library, so just include `bitsnarl.hpp`. See `example.cpp` for example
+
+## TODO
+
+- Try error correction using SAT or SMT solvers
+- Implement in other languages
+
+## License
+
+MIT
