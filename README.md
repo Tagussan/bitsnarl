@@ -33,9 +33,15 @@ However, if there are errors in the scrambled data, the reverse-scrambled data w
 </p>
 
 
-## Applications
 
-The algorithm is implemented with just addition and table lookups. No heavy integer computation like the famous cryptographic algorithm is required. The algorithm consists of [pseudo-hadamard](https://en.wikipedia.org/wiki/Pseudo-Hadamard_transform) transform and GF(2^8) table. Runs in O(N log N) time. Even available in MCU with limited resources.
+
+## How it works
+
+The algorithm is implemented with just addition and table lookups. No heavy integer computation which is common in cryptographic algorithms is required. The algorithm consists of [pseudo-hadamard](https://en.wikipedia.org/wiki/Pseudo-Hadamard_transform) transform and GF(2^8) table. The pseudo-hadamard transform is recursively applied so that any tiny error affects the entire bytes. Runs in O(N log N) time. Even available in MCU with limited resources.
+
+
+
+## Applications
 
 - Error detection w/o extra bits: as described above. After the reverse scramble, check whether the restored data satisfies the original format.
 - Error detection with additional bits: For data without any constraint, or adding more error detection ability. This can be done by adding some magic numbers along with the original data. Use this number for validation. 
