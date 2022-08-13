@@ -16,6 +16,10 @@ A 10-character string is represented by 10 bytes. But when 10 bytes of data are 
 
 String is just one example; the JSON format imposes stronger constraints. Binary data is also constrained by its format.
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/Tagussan/bitsnarl/main/docs/data_region.png" style="width: 30%;">
+</p>
+
 ## Scrambling and error detection using underlying constraints
 
 Combining this constraint with a reversible data conversion, where a difference of a single bit can lead to a completely different result (scramble), enables error detection without adding new bits. 
