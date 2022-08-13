@@ -17,7 +17,7 @@ A 10-character string is represented by 10 bytes. But when 10 bytes of data are 
 String is just one example; the JSON format imposes stronger constraints. Binary data is also constrained by its format.
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/Tagussan/bitsnarl/main/docs/data_region.png" style="width: 30%;">
+  <img src="https://raw.githubusercontent.com/Tagussan/bitsnarl/main/docs/data_region.png" style="width: 35%;">
 </p>
 
 ## Scrambling and error detection using underlying constraints
@@ -27,3 +27,7 @@ Combining this constraint with a reversible data conversion, where a difference 
 First, apply this scrambling to the data. If the data is error-free, applying the reverse scrambling will restore it.
 
 However, if there are errors in the scrambled data, the reverse-scrambled data will be very different from the original data. For example, if the original data is a string, the reverse-scrambled data with errors will be far from a string. Now we can tell that there were errors.
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/Tagussan/bitsnarl/main/docs/data_transition.png" style="width: 35%;">
+</p>
