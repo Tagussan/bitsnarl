@@ -31,6 +31,8 @@ However, if there are errors in the scrambled data, the reverse-scrambled data w
 <p align="center">
   <img src="https://raw.githubusercontent.com/Tagussan/bitsnarl/main/docs/data_transition.png" style="width: 35%;">
 </p>
+
+
 ## Usage
 
 The algorithm is implemented with just addition and table lookups. No heavy integer computation like the famous cryptographic algorithm is required. The algorithm consists of [pseudo-hadamard](https://en.wikipedia.org/wiki/Pseudo-Hadamard_transform) transform and GF(2^8) table. Runs in O(N log N) time. Even available in MCU with limited resources.
