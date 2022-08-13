@@ -1,6 +1,6 @@
-# Light and fast data scrambler for error detection with zero redundancy
 
-This library performs reversible data scrambling such that a bit error in any location affects the whole bytes. Because even a tiny bit error turns the entire data into a completely different one, **error detection can be performed without excess bits**, thanks to the potential constraints of the data.
+
+This library performs reversible data scrambling such that a bit error in any location affects the whole bytes. No heavy computation, only addition and lookup table is used. Because even a tiny bit error turns the entire data into a completely different one, **error detection can be performed without excess bits**, thanks to the potential constraints of the data.
 
 
 
