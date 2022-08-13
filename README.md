@@ -1,4 +1,4 @@
-# Light and fast data scrambler for zero-redundant bit error detection
+# Light and fast data scrambler for error detection with zero redundancy
 
 This library performs reversible data scrambling such that a bit error in any location affects the whole bytes. Because even a tiny bit error turns the entire data into a completely different one, **error detection can be performed without excess bits**, thanks to the potential constraints of the data.
 
@@ -6,7 +6,7 @@ This library performs reversible data scrambling such that a bit error in any lo
 
 ## Principle: we may put very strong constraints on data
 
-We have ASCII codes to represent strings. The number of ASCII codes that correspond to actual characters is 99 (33 to 126 for characters, and Space, CR, LF, Tab, NUL), and usually one byte is allocated for each character. 
+We have ASCII codes to represent strings. The number of ASCII codes that correspond to actual characters is 100 (33 to 126 for characters, and Space, CR, LF, Tab, NUL), and usually one byte is allocated for each character. 
 
 Essentially, one byte can represent 256 different numbers, so less than half of the numbers are effectively used. In more detail, there is a **99/256 = 39%** probability that a random 1-byte number is a character. 
 
